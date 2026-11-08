@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b1712">
+<title>Two-step verification · Bellmont</title>
+<meta name="description" content="Bronze OTP: a verification-code input where every digit is cast in molten bronze and cools to polished metal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@900&family=Fraunces:opsz,wght@9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bronze.css">
+<script>
+  // the page has one theme of its own (warm dark) and never reads the OS scheme. Older dv90 keys are wiped; no-WebGL is decided before paint.
+  (function () {
+    try { for (var i = localStorage.length - 1; i >= 0; i--) { var k = localStorage.key(i); if (/^dv90/.test(k) && !/^dv90\.v1\./.test(k)) localStorage.removeItem(k); } } catch (e) {}
+    var c = document.createElement('canvas'), ok = false;
+    try { ok = !!c.getContext('webgl2'); } catch (e) {}
+    if (!ok || /[?&]nofx\b/.test(location.search)) document.documentElement.classList.add('no-fx');
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#code">Skip to the verification code</a>
+<header class="nav">
+  <a class="logo" href="#top" id="top" aria-label="Bellmont, home"><i aria-hidden="true"></i>BELLMONT</a>
+  <div class="nav-r">
+    <a class="help" href="#help" id="help">Help</a>
+    <span class="secure"><i aria-hidden="true"></i>Secure session</span>
+  </div>
+</header>
+
+<main class="main" id="main">
+  <div class="head">
+    <p class="eyebrow">Two-step verification</p>
+    <h1>Enter the code, <em>cast&nbsp;in&nbsp;bronze.</em></h1>
+    <p class="lede" id="lede">We sent six digits to <b>+1&nbsp;•••&nbsp;•••&nbsp;4821</b>. Each one is poured as you type.</p>
+  </div>
+
+  <form class="otp" id="otp" novalidate autocomplete="on">
+    <div class="plate" id="plate">
+      <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+      <span class="eng eng-l" aria-hidden="true">Bellmont Foundry</span>
+      <span class="eng eng-r" aria-hidden="true">Nº 0482 · Bronze C93200</span>
+      <div class="tiles" id="tiles">
+        <div class="grp">
+          <div class="slot"><b></b><i class="num" aria-hidden="true">01</i></div>
+          <div class="slot"><b></b><i class="num" aria-hidden="true">02</i></div>
+          <div class="slot"><b></b><i class="num" aria-hidden="true">03</i></div>
+        </div>
+        <i class="dash" aria-hidden="true"></i>
+        <div class="grp">
+          <div class="slot"><b></b><i class="num" aria-hidden="true">04</i></div>
+          <div class="slot"><b></b><i class="num" aria-hidden="true">05</i></div>
+          <div class="slot"><b></b><i class="num" aria-hidden="true">06</i></div>
+        </div>
+        <canvas class="metal" id="metal" aria-hidden="true"></canvas>
+        <svg class="clipdefs" width="0" height="0" focusable="false" aria-hidden="true"><defs><clipPath id="dg-clip" clipPathUnits="userSpaceOnUse"></clipPath></defs></svg>
+        <label class="sr-only" for="code" id="code-label">Verification code, 6 digits</label>
+        <input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*"
+               spellcheck="false" autocapitalize="off" aria-describedby="status hint" data-fit>
+      </div>
+    </div>
+
+    <div class="below" id="below">
+      <span class="timer" id="timer"><span id="timer-l">Code expires in</span> <b id="tm">0:42</b></span>
+      <button class="resend" id="resend" type="button">Resend code</button>
+      <button class="verify" id="verify" type="submit" disabled>
+        <svg class="spin" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>
+        <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17 19 7.5"/></svg>
+        <span id="verify-t">Verify &amp; continue</span>
+      </button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite">2 digits to go</p>
+    <p class="sr-only" id="hint">Demo code 482913. Any other code shows the error state.</p>
+    <p class="alert" id="alert" role="alert"></p>
+  </form>
+</main>
+
+<footer class="foot">
+  <div class="cap">
+    <b>25 · Bronze OTP</b>
+    <span class="cap-t">A verification code cast in molten bronze</span>
+    <i>Each digit pours in glowing and cools to polished metal. Demo code <span class="demo">482913</span>.</i>
+  </div>
+  <div class="brandmark" aria-hidden="true">Code with Ulvi</div>
+</footer>
+<p class="toast" id="toast" role="status" aria-live="polite"></p>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
